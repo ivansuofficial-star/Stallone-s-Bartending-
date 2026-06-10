@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stallone's Bartending</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-stencil: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      font-family: var(--font-body);
+      font-weight: 400;
+      letter-spacing: 0.025em;
+      color: #000;
+    }
+
+    a, a:link, a:visited, a:active, a:hover {
+      color: #000 !important;
+      -webkit-text-fill-color: #000 !important;
+      text-decoration: none;
+    }
+
+    footer, footer * {
+      color: #000 !important;
+      -webkit-text-fill-color: #000 !important;
+    }
+
+    body {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.25rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    #site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 4px 0;
+      font-family: var(--font-body);
+      transition: opacity 0.2s ease;
+    }
+    .nav-btn:hover { opacity: 0.65; }
+    .nav-btn:focus-visible { outline: 1px solid #fff; outline-offset: 4px; }
+    .nav-btn:active { opacity: 0.45; }
+
+    /* ── HERO LOGO OVERLAY ── */
+    .hero-logo-wrap {
+      position: absolute;
+      top: 58px;          /* sits just below the nav buttons */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      pointer-events: none;
+      overflow: hidden;
+      /* Width drives the text's visual size. At 40vw the stencil text
+         fills ~70% of that = visible text width.
+         Height clips to just the text band (~25% of width). */
+      width: clamp(360px, 40vw, 560px);
+      height: clamp(88px, 10vw, 140px);
+    }
+
+    .hero-logo-img {
+      width: 100%;
+      display: block;
+      /* PNG is square with ~37% transparent padding above the text.
+         translateY(-36%) shifts the image up so the text band aligns
+         with the top of the clipping container. */
+      transform: translateY(-36%);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      background: #0b0f09;
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.88;
+    }
+
+    /* ── PRODUCT CARD ── */
+    .product-card {
+      position: absolute;
+      bottom: 48px;
+      right: 48px;
+      background: #fff;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      width: 268px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    }
+
+    .product-card-img {
+      width: 64px;
+      height: 88px;
+      object-fit: cover;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .product-card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .product-card-cat {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin: 0 0 5px;
+      display: block;
+    }
+
+    .product-card-name {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 0 0 6px;
+      font-weight: 500;
+      display: block;
+    }
+
+    .product-card-price {
+      font-size: 13px;
+      margin: 0 0 5px;
+      display: block;
+    }
+
+    .product-card-size {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      margin: 0;
+      display: block;
+    }
+
+    .card-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0;
+      line-height: 1;
+      color: #000;
+      flex-shrink: 0;
+      margin-left: 4px;
+      transition: opacity 0.2s ease;
+    }
+    .card-close:hover { opacity: 0.5; }
+    .card-close:focus-visible { outline: 1px solid #000; outline-offset: 2px; }
+    .card-close:active { opacity: 0.3; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #fff;
+      padding: 64px 48px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    .footer-left {
+      flex-shrink: 0;
+      width: auto;
+      min-width: 320px;
+    }
+
+    /* Footer logo uses the same PNG crop technique as the hero logo.
+       PNG is 1254×1254 with ~37% transparent padding top/bottom and
+       ~15% side padding. Text fills ~22% of height and ~70% of width. */
+    .footer-logo-clip {
+      overflow: hidden;
+      width: clamp(420px, 34vw, 580px);
+      /* height = ~25% of width to expose the text band with a small buffer */
+      height: clamp(105px, 8.5vw, 145px);
+      margin-bottom: 28px;
+    }
+
+    .footer-logo-img {
+      width: 100%;
+      display: block;
+      /* Shift image up by top-padding fraction so text aligns to clip top */
+      transform: translateY(-36%);
+    }
+
+    .footer-newsletter-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+      font-weight: 500;
+      display: block;
+    }
+
+    .footer-newsletter-desc {
+      font-size: 12px;
+      line-height: 1.65;
+      color: #000;
+      margin: 0 0 18px;
+    }
+
+    .email-row {
+      display: flex;
+      border-bottom: 1px solid #000;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .email-row input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 12px;
+      font-family: var(--font-body);
+      letter-spacing: 0.025em;
+      background: transparent;
+      color: #000;
+      padding: 0;
+    }
+
+    .email-row input::placeholder { color: #999; }
+
+    .email-row button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 0 0 8px;
+      color: #000;
+      line-height: 1;
+      transition: opacity 0.2s ease;
+    }
+    .email-row button:hover { opacity: 0.55; }
+    .email-row button:focus-visible { outline: 1px solid #000; outline-offset: 2px; }
+    .email-row button:active { opacity: 0.35; }
+
+    .privacy-note {
+      font-size: 10px;
+      color: #888;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ── FOOTER COLUMNS ── */
+    .footer-cols {
+      flex: 1;
+      display: flex;
+      gap: 40px;
+    }
+
+    .footer-col {
+      flex: 1;
+    }
+
+    .footer-col-head {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #999;
+      margin: 0 0 16px;
+      font-weight: 400;
+      display: block;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col li span {
+      font-size: 12px;
+      color: #000;
+      display: block;
+      cursor: default;
+    }
+
+    /* ── FOOTER BOTTOM BAR ── */
+    .footer-bar {
+      border-top: 1px solid #e0e0e0;
+      margin-top: 52px;
+      padding: 18px 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 22px;
+    }
+
+    .social-links a {
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #000;
+      transition: opacity 0.2s ease;
+    }
+    .social-links a:hover { opacity: 0.55; }
+    .social-links a:focus-visible { outline: 1px solid #000; outline-offset: 2px; }
+
+    .footer-copyright {
+      font-size: 10px;
+      color: #000;
+      margin: 0;
+    }
+
+    .locale-link {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      color: #000;
+      text-transform: uppercase;
+      transition: opacity 0.2s ease;
+    }
+    .locale-link:hover { opacity: 0.55; }
+    .locale-link:focus-visible { outline: 1px solid #000; outline-offset: 2px; }
+
+    /* ── CARD DISMISS ── */
+    .product-card.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="site-nav">
+  <button class="nav-btn">Menu</button>
+  <button class="nav-btn">Cart (0)</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video
+    class="hero-video"
+    src="brand assets/bartender.mp4"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  ></video>
+
+  <!-- Large centered logo overlay -->
+  <div class="hero-logo-wrap">
+    <img id="heroLogo" src="brand assets/stallone's logo.png" alt="Stallone's Bartending" class="hero-logo-img">
+  </div>
+
+  <!-- Product Card Overlay -->
+  <div class="product-card" id="productCard">
+    <img
+      src="https://placehold.co/64x88/e8e2d6/b8a888"
+      alt="Old Fashioned"
+      class="product-card-img"
+    >
+    <div class="product-card-body">
+      <span class="product-card-cat">Signature Cocktail</span>
+      <span class="product-card-name">Old Fashioned</span>
+      <span class="product-card-price">$18</span>
+      <span class="product-card-size">Classic Blend</span>
+    </div>
+    <button class="card-close" onclick="document.getElementById('productCard').classList.add('hidden')" aria-label="Close">&#x2715;</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+
+    <!-- Left: Brand + Newsletter -->
+    <div class="footer-left">
+      <div class="footer-logo-clip">
+        <img id="footerLogo" src="brand assets/stallone's logo.png" alt="Stallone's" class="footer-logo-img">
+      </div>
+
+      <span class="footer-newsletter-label">Stay in the Know</span>
+      <p class="footer-newsletter-desc">Receive personalized updates, event announcements, and exclusive access based on your interests.</p>
+
+      <div class="email-row">
+        <input type="email" placeholder="Email address *" aria-label="Email address">
+        <button aria-label="Subscribe">&#x2192;</button>
+      </div>
+      <p class="privacy-note">This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.</p>
+    </div>
+
+    <!-- Right: Link Columns -->
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="footer-col-head">Services</span>
+        <ul>
+          <li><span>Private Events</span></li>
+          <li><span>Weddings</span></li>
+          <li><span>Corporate Events</span></li>
+          <li><span>Cocktail Menus</span></li>
+          <li><span>Mobile Bar Setup</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-head">Contact</span>
+        <ul>
+          <li><span>Book an Event</span></li>
+          <li><span>Contact</span></li>
+          <li><span>FAQ</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-head">Legal</span>
+        <ul>
+          <li><span>Terms &amp; Conditions</span></li>
+          <li><span>Privacy Policy</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-head">Locations</span>
+        <ul>
+          <li><span>New York City</span></li>
+          <li><span>Los Angeles</span></li>
+          <li><span>Miami</span></li>
+          <li><span>Chicago</span></li>
+          <li><span>Las Vegas</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bar">
+    <nav class="social-links" aria-label="Social media">
+      <a href="#">Facebook</a>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">TikTok</a>
+      <a href="#">Pinterest</a>
+      <a href="#">YouTube</a>
+    </nav>
+    <p class="footer-copyright">&copy; 2026 Stallone's Bartending</p>
+    <a href="#" class="locale-link">United States (USD)&nbsp;|&nbsp;English</a>
+  </div>
+</footer>
+
+<script>
+  /* Strip white background from hero logo and invert text to white */
+  (function() {
+    const heroImg = document.getElementById('heroLogo');
+    if (!heroImg) return;
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    img.onload = function() {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = d.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i] > 200 && px[i+1] > 200 && px[i+2] > 200) {
+          px[i+3] = 0;           // white → transparent
+        } else {
+          px[i]   = 255 - px[i];
+          px[i+1] = 255 - px[i+1];
+          px[i+2] = 255 - px[i+2]; // dark text → white
+        }
+      }
+      ctx.putImageData(d, 0, 0);
+      heroImg.src = canvas.toDataURL('image/png');
+    };
+
+    img.src = heroImg.src;
+  })();
+
+  /* Strip white background from footer logo — keep text black, make white transparent */
+  (function() {
+    const footerImg = document.getElementById('footerLogo');
+    if (!footerImg) return;
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    img.onload = function() {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = d.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i] > 200 && px[i+1] > 200 && px[i+2] > 200) {
+          px[i+3] = 0; // white → transparent, keep text black
+        }
+      }
+      ctx.putImageData(d, 0, 0);
+      footerImg.src = canvas.toDataURL('image/png');
+    };
+
+    img.src = footerImg.src;
+  })();
+</script>
+</body>
+</html>
