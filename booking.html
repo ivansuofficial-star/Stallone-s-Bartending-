@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book an Event — Stallone's Bartending</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-stencil: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      font-family: var(--font-body);
+      font-weight: 400;
+      letter-spacing: 0.025em;
+      color: #000;
+    }
+
+    a, a:link, a:visited, a:active, a:hover {
+      color: #000 !important;
+      -webkit-text-fill-color: #000 !important;
+      text-decoration: none;
+    }
+
+    footer, footer * {
+      color: #000 !important;
+      -webkit-text-fill-color: #000 !important;
+    }
+
+    body {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.25rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      background: #faf9f7;
+    }
+
+    /* ── NAV ── */
+    #site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+      background: #faf9f7;
+      border-bottom: 1px solid #e8e4dc;
+    }
+
+    .nav-logo-clip {
+      overflow: hidden;
+      width: 180px;
+      height: 38px;
+      display: block;
+    }
+
+    .nav-logo-img {
+      width: 100%;
+      display: block;
+      transform: translateY(-36%);
+    }
+
+    .nav-back {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .nav-back:hover { opacity: 0.5; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 140px 48px 64px;
+      border-bottom: 1px solid #e8e4dc;
+    }
+
+    .page-header-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #999;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-stencil);
+      font-size: clamp(52px, 8vw, 96px);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      color: #0b0f09;
+      margin: 0;
+    }
+
+    /* ── FORM ── */
+    .form-wrap {
+      max-width: 680px;
+      padding: 64px 48px;
+    }
+
+    .form-section-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #999;
+      display: block;
+      margin-bottom: 40px;
+    }
+
+    .field {
+      margin-bottom: 32px;
+    }
+
+    .field label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #999;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      background: transparent;
+      font-size: 13px;
+      font-family: var(--font-body);
+      color: #000;
+      padding: 8px 0;
+      outline: none;
+      border-radius: 0;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-bottom-color: #000;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder { color: #bbb; }
+
+    .field select { cursor: pointer; }
+    .field select option[value=""] { color: #bbb; }
+
+    .field textarea {
+      resize: none;
+      height: 100px;
+      line-height: 1.65;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e8e4dc;
+      margin: 48px 0;
+    }
+
+    .section-title {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #999;
+      display: block;
+      margin-bottom: 32px;
+    }
+
+    .submit-btn {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #0b0f09;
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+      border: none;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-family: var(--font-body);
+      padding: 16px 32px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .submit-btn:hover { opacity: 0.75; }
+    .submit-btn:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+    .submit-btn:active { opacity: 0.5; }
+
+    .submit-arrow {
+      font-size: 16px;
+      line-height: 1;
+      transition: transform 0.2s;
+    }
+    .submit-btn:hover .submit-arrow { transform: translateX(4px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #fff;
+      padding: 64px 48px 0;
+      border-top: 1px solid #e8e4dc;
+    }
+
+    .footer-inner {
+      display: flex;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    .footer-left {
+      flex-shrink: 0;
+      min-width: 320px;
+    }
+
+    .footer-logo-clip {
+      overflow: hidden;
+      width: clamp(420px, 34vw, 580px);
+      height: clamp(105px, 8.5vw, 145px);
+      margin-bottom: 28px;
+    }
+
+    .footer-logo-img {
+      width: 100%;
+      display: block;
+      transform: translateY(-36%);
+    }
+
+    .footer-cols {
+      flex: 1;
+      display: flex;
+      gap: 40px;
+    }
+
+    .footer-col { flex: 1; }
+
+    .footer-col-head {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #999;
+      margin: 0 0 16px;
+      display: block;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col li span,
+    .footer-col li a { font-size: 12px; color: #000; display: block; }
+
+    .footer-bar {
+      border-top: 1px solid #e0e0e0;
+      margin-top: 52px;
+      padding: 18px 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .social-links { display: flex; gap: 22px; }
+
+    .social-links a {
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .social-links a:hover { opacity: 0.55; }
+
+    .footer-copyright { font-size: 10px; margin: 0; }
+
+    .locale-link {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .locale-link:hover { opacity: 0.55; }
+
+    @media (max-width: 768px) {
+      .page-header { padding: 120px 24px 48px; }
+      .form-wrap { padding: 48px 24px; }
+      .field-row { grid-template-columns: 1fr; }
+      footer { padding: 48px 24px 0; }
+      .footer-inner { flex-direction: column; }
+      .footer-left { min-width: unset; }
+      .footer-logo-clip { width: 100%; height: 60px; }
+      .footer-cols { flex-wrap: wrap; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="site-nav">
+  <a href="index.html" class="nav-logo-clip">
+    <img id="navLogo" src="brand assets/stallone's logo.png" alt="Stallone's" class="nav-logo-img">
+  </a>
+  <a href="javascript:history.back()" class="nav-back">← Back</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <span class="page-header-label">Let's Make It Happen</span>
+  <h1>Book an Event</h1>
+</header>
+
+<!-- FORM -->
+<div class="form-wrap">
+  <form>
+
+    <span class="section-title">Your Information</span>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="fname" placeholder="John">
+      </div>
+      <div class="field">
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lname" placeholder="Smith">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="john@example.com">
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="+1 (000) 000 0000">
+    </div>
+
+    <hr class="divider">
+    <span class="section-title">Event Details</span>
+
+    <div class="field">
+      <label for="event-type">Event Type</label>
+      <select id="event-type" name="event-type">
+        <option value="" disabled selected>Select an event type</option>
+        <option value="private">Private Event</option>
+        <option value="cocktail">Cocktail Menu</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="date">Event Date</label>
+        <input type="text" id="date" name="date" placeholder="MM / DD / YYYY">
+      </div>
+      <div class="field">
+        <label for="guests">Estimated Guest Count</label>
+        <input type="text" id="guests" name="guests" placeholder="e.g. 50">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="location">Event Location</label>
+      <select id="location" name="location">
+        <option value="" disabled selected>Select a location</option>
+        <option value="oc">Orange County, CA</option>
+        <option value="ie">Inland Empire, CA</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="notes">Additional Notes</label>
+      <textarea id="notes" name="notes" placeholder="Anything else we should know about your event…"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">
+      Submit Request <span class="submit-arrow">&#x2192;</span>
+    </button>
+
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo-clip">
+        <img id="footerLogo" src="brand assets/stallone's logo.png" alt="Stallone's" class="footer-logo-img">
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="footer-col-head">Services</span>
+        <ul>
+          <li><span>Private Events</span></li>
+          <li><span>Cocktail Menus</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-head">Customer Service</span>
+        <ul>
+          <li><a href="booking.html">Book an Event</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-head">Legal</span>
+        <ul>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-head">Locations</span>
+        <ul>
+          <li><span>Orange County, CA</span></li>
+          <li><span>Inland Empire, CA</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <p class="footer-copyright">&copy; 2026 Stallone's Bartending</p>
+    <a href="#" class="locale-link">United States (USD)&nbsp;|&nbsp;English</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const el = document.getElementById('navLogo');
+    if (!el) return;
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = d.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i] > 200 && px[i+1] > 200 && px[i+2] > 200) px[i+3] = 0;
+      }
+      ctx.putImageData(d, 0, 0);
+      el.src = canvas.toDataURL('image/png');
+    };
+    img.src = el.src;
+  })();
+
+  (function() {
+    const el = document.getElementById('footerLogo');
+    if (!el) return;
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = d.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i] > 200 && px[i+1] > 200 && px[i+2] > 200) px[i+3] = 0;
+      }
+      ctx.putImageData(d, 0, 0);
+      el.src = canvas.toDataURL('image/png');
+    };
+    img.src = el.src;
+  })();
+</script>
+</body>
+</html>

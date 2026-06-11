@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms & Conditions — Stallone's Bartending</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #1a1a1a;
+      background: #faf9f7;
+      padding: 120px 24px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      padding: 14px 32px;
+      background: #faf9f7;
+      border-bottom: 1px solid #e8e4dc;
+    }
+    .nav-logo-clip {
+      overflow: hidden;
+      width: 180px;
+      height: 38px;
+      display: block;
+    }
+    .nav-logo-img {
+      width: 100%;
+      display: block;
+      transform: translateY(-36%);
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .back {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #888;
+      margin-bottom: 48px;
+      transition: color 0.2s;
+    }
+    .back:hover { color: #1a1a1a; }
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      letter-spacing: 0.04em;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    .updated {
+      font-size: 12px;
+      color: #999;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+    h2 {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #333;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo-clip">
+    <img id="navLogo" src="brand assets/stallone's logo.png" alt="Stallone's" class="nav-logo-img">
+  </a>
+  <a href="javascript:history.back()" class="back" style="margin-left:auto;">← Back</a>
+</nav>
+
+  <div class="container">
+    <h1>Terms &amp; Conditions</h1>
+    <p class="updated">Last updated: 2026</p>
+
+    <p>By accessing or using this website, you agree to the following terms. If you do not agree, please discontinue use of this site.</p>
+
+    <h2>Use of This Website</h2>
+    <p>This website is for informational purposes only. All content, including text, images, and design, is the property of Stallone's Bartending and may not be reproduced or distributed without written permission.</p>
+
+    <h2>Services</h2>
+    <p>All services are subject to availability. Pricing and offerings are subject to change without notice. Final pricing will be confirmed prior to any work beginning.</p>
+
+    <h2>Limitation of Liability</h2>
+    <p>Stallone's Bartending is not liable for any damages arising from the use of this website or its services. All information provided is on an "as is" basis.</p>
+
+    <h2>Third-Party Links</h2>
+    <p>This site may contain links to third-party websites. We are not responsible for the content or practices of those sites.</p>
+
+    <h2>Changes to These Terms</h2>
+    <p>We reserve the right to update these terms at any time. Continued use of the site constitutes acceptance of any changes.</p>
+
+    <h2>Contact</h2>
+    <p>For questions regarding these terms, contact us at +1 (909) 936 3128.</p>
+  </div>
+<script>
+  (function() {
+    const el = document.getElementById('navLogo');
+    if (!el) return;
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = d.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i] > 200 && px[i+1] > 200 && px[i+2] > 200) px[i+3] = 0;
+      }
+      ctx.putImageData(d, 0, 0);
+      el.src = canvas.toDataURL('image/png');
+    };
+    img.src = el.src;
+  })();
+</script>
+</body>
+</html>

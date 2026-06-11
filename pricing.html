@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — Stallone's Bartending</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-stencil: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      font-family: var(--font-body);
+      font-weight: 400;
+      letter-spacing: 0.025em;
+      color: #000;
+    }
+
+    a, a:link, a:visited, a:active, a:hover {
+      color: #000 !important;
+      -webkit-text-fill-color: #000 !important;
+      text-decoration: none;
+    }
+
+    body {
+      margin: 0;
+      font-size: 13px;
+      -webkit-font-smoothing: antialiased;
+      background: #faf9f7;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+      background: #faf9f7;
+      border-bottom: 1px solid #e8e4dc;
+    }
+
+    .nav-logo-clip {
+      overflow: hidden;
+      width: 180px;
+      height: 38px;
+      display: block;
+    }
+
+    .nav-logo-img {
+      width: 100%;
+      display: block;
+      transform: translateY(-36%);
+    }
+
+    .nav-back {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .nav-back:hover { opacity: 0.5; }
+
+    .center {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    .label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #999;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: var(--font-stencil);
+      font-size: clamp(48px, 8vw, 88px);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      color: #0b0f09;
+      margin: 0 0 32px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.75;
+      max-width: 400px;
+      margin: 0 auto 36px;
+    }
+
+    .call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #0b0f09;
+      padding: 14px 28px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .call-btn:hover {
+      background: #0b0f09;
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo-clip">
+    <img id="navLogo" src="brand assets/stallone's logo.png" alt="Stallone's" class="nav-logo-img">
+  </a>
+  <a href="javascript:history.back()" class="nav-back">← Back</a>
+</nav>
+
+<div class="center">
+  <span class="label">Pricing</span>
+  <h1>Let's Talk</h1>
+  <p class="desc">Every event is different. For a personalized quote tailored to your event, give us a call.</p>
+  <a href="tel:+19497082339" class="call-btn">(949) 708-2339 &#x2192;</a>
+</div>
+
+<script>
+  (function() {
+    const el = document.getElementById('navLogo');
+    if (!el) return;
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = d.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i] > 200 && px[i+1] > 200 && px[i+2] > 200) px[i+3] = 0;
+      }
+      ctx.putImageData(d, 0, 0);
+      el.src = canvas.toDataURL('image/png');
+    };
+    img.src = el.src;
+  })();
+</script>
+</body>
+</html>
