@@ -659,6 +659,10 @@
       display: block;
     }
 
+    a[href*="threejs"], a[href*="codrops"], a[href*="tympanus"] {
+      display: none !important;
+    }
+
     .cta-content {
       position: relative;
       z-index: 1;
@@ -721,6 +725,14 @@
       .gallery-grid { grid-template-columns: 1fr 1fr; }
       .gallery-item:first-child { grid-row: auto; min-height: 240px; }
       .cta-strip { flex-direction: column; align-items: flex-start; padding: 64px 24px; }
+
+      footer { padding: 48px 24px 0; }
+      .footer-inner { flex-direction: column; gap: 32px; }
+      .footer-left { min-width: unset; width: 100%; }
+      .footer-logo-clip { width: 100%; max-width: 280px; height: 56px; }
+      .footer-cols { flex-wrap: wrap; gap: 32px; }
+      .footer-col { flex: 0 0 calc(50% - 16px); min-width: 0; }
+      .footer-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
     }
   </style>
 </head>
@@ -989,6 +1001,11 @@
     app.liquidPlane.uniforms.displacementScale.value = 3;
     app.setRain(false);
     window.__liquidApp = app;
+
+    // Remove attribution badge injected by the library
+    setTimeout(() => {
+      document.querySelectorAll('a[href*="threejs"], a[href*="codrops"], a[href*="tympanus"], div[style*="position: fixed"], div[style*="position:fixed"]').forEach(el => el.remove());
+    }, 300);
   }
 </script>
 </body>
